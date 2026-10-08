@@ -1,0 +1,7 @@
+signalroom:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      path: "db/signalroom.duckdb"
+      threads: 4

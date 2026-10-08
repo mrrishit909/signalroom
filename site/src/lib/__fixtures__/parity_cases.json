@@ -1,0 +1,591 @@
+[
+  {
+    "filters": {
+      "regions": [
+        "Northeast"
+      ],
+      "categories": [
+        "Footwear",
+        "Accessories"
+      ],
+      "channels": [
+        "online",
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 753798.2700000034,
+      "gross_revenue": 986109.8800000077,
+      "discount_amount": 24098.210000000043,
+      "cogs": 276361.4099999984,
+      "margin": 477436.860000005,
+      "margin_pct": 0.6333748417862551,
+      "units": 9230,
+      "completed_orders": 8126,
+      "aov": 207.96687792271592
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Apparel",
+        "Home",
+        "Accessories",
+        "Footwear"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 7650428.199999289,
+      "gross_revenue": 9970376.419998776,
+      "discount_amount": 227893.03000000006,
+      "cogs": 2859090.310000097,
+      "margin": 4791337.889999192,
+      "margin_pct": 0.6262836229218696,
+      "units": 93901,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Midwest",
+        "Southwest"
+      ],
+      "categories": [],
+      "channels": [
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1871287.760000001,
+      "gross_revenue": 2436038.4999999856,
+      "discount_amount": 55458.140000000094,
+      "cogs": 700002.4200000123,
+      "margin": 1171285.3399999887,
+      "margin_pct": 0.6259247588943713,
+      "units": 22941,
+      "completed_orders": 9943,
+      "aov": 210.0760846826911
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "West",
+        "Northeast",
+        "Midwest",
+        "Southeast",
+        "Southwest"
+      ],
+      "categories": [
+        "Apparel"
+      ],
+      "channels": [
+        "online",
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 2215127.599999966,
+      "gross_revenue": 2898185.599999818,
+      "discount_amount": 66134.02999999991,
+      "cogs": 829929.0900000529,
+      "margin": 1385198.5099999132,
+      "margin_pct": 0.6253357639532523,
+      "units": 26633,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Apparel"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 2215127.599999966,
+      "gross_revenue": 2898185.599999818,
+      "discount_amount": 66134.02999999991,
+      "cogs": 829929.0900000529,
+      "margin": 1385198.5099999132,
+      "margin_pct": 0.6253357639532523,
+      "units": 26633,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Apparel"
+      ],
+      "channels": [
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1394797.5699999954,
+      "gross_revenue": 1821047.1299999892,
+      "discount_amount": 42368.46000000007,
+      "cogs": 523233.53000001714,
+      "margin": 871564.0399999783,
+      "margin_pct": 0.6248677648613779,
+      "units": 16710,
+      "completed_orders": 25446,
+      "aov": 209.2740242081155
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "West",
+        "Southeast"
+      ],
+      "categories": [
+        "Home",
+        "Accessories",
+        "Footwear",
+        "Apparel"
+      ],
+      "channels": [
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1201734.8800000097,
+      "gross_revenue": 1550883.219999998,
+      "discount_amount": 34814.94000000004,
+      "cogs": 447382.92999999743,
+      "margin": 754351.9500000123,
+      "margin_pct": 0.6277191105579013,
+      "units": 14713,
+      "completed_orders": 6440,
+      "aov": 207.58362111801307
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Home",
+        "Footwear"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 3361131.5200000256,
+      "gross_revenue": 4365878.929999995,
+      "discount_amount": 100579.37999999944,
+      "cogs": 1287132.4500000037,
+      "margin": 2073999.070000022,
+      "margin_pct": 0.6170538277538173,
+      "units": 40312,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Midwest"
+      ],
+      "categories": [
+        "Footwear",
+        "Apparel",
+        "Accessories",
+        "Home"
+      ],
+      "channels": [
+        "in_store",
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1569464.1599999985,
+      "gross_revenue": 2039529.4799999916,
+      "discount_amount": 45203.48000000012,
+      "cogs": 588020.850000004,
+      "margin": 981443.3099999945,
+      "margin_pct": 0.6253365543562304,
+      "units": 19352,
+      "completed_orders": 8381,
+      "aov": 208.9035067414387
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Midwest",
+        "Southwest",
+        "Southeast",
+        "Northeast",
+        "West"
+      ],
+      "categories": [],
+      "channels": [
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 2869468.2299999497,
+      "gross_revenue": 3764630.629999912,
+      "discount_amount": 84510.38999999993,
+      "cogs": 1071525.1800000477,
+      "margin": 1797943.049999902,
+      "margin_pct": 0.6265770888147918,
+      "units": 35528,
+      "completed_orders": 15654,
+      "aov": 205.49364699118007
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Southeast",
+        "Midwest",
+        "Northeast",
+        "West",
+        "Southwest"
+      ],
+      "categories": [
+        "Apparel",
+        "Accessories"
+      ],
+      "channels": [
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 2687285.9299999066,
+      "gross_revenue": 3495067.26999983,
+      "discount_amount": 79340.64000000023,
+      "cogs": 984886.1500000688,
+      "margin": 1702399.7799998377,
+      "margin_pct": 0.6335015418325421,
+      "units": 33366,
+      "completed_orders": 25446,
+      "aov": 209.2740242081155
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "West",
+        "Midwest"
+      ],
+      "categories": [
+        "Accessories",
+        "Home"
+      ],
+      "channels": [
+        "in_store",
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1499005.66999998,
+      "gross_revenue": 1925108.5399999518,
+      "discount_amount": 43805.78000000021,
+      "cogs": 557178.2799999929,
+      "margin": 941827.389999987,
+      "margin_pct": 0.6283014193001683,
+      "units": 19231,
+      "completed_orders": 16535,
+      "aov": 208.35463501662753
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "West"
+      ],
+      "categories": [],
+      "channels": [
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 568485.0000000005,
+      "gross_revenue": 728607.3900000018,
+      "discount_amount": 15458.080000000005,
+      "cogs": 211766.0199999996,
+      "margin": 356718.98000000085,
+      "margin_pct": 0.6274905758287388,
+      "units": 6966,
+      "completed_orders": 3083,
+      "aov": 204.4941842361337
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [],
+      "channels": [
+        "online",
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 7650428.199999289,
+      "gross_revenue": 9970376.419998776,
+      "discount_amount": 227893.03000000006,
+      "cogs": 2859090.310000097,
+      "margin": 4791337.889999192,
+      "margin_pct": 0.6262836229218696,
+      "units": 93901,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Accessories"
+      ],
+      "channels": [
+        "in_store",
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 2074169.0799999386,
+      "gross_revenue": 2706311.889999958,
+      "discount_amount": 61179.62000000047,
+      "cogs": 742028.7700000214,
+      "margin": 1332140.3099999172,
+      "margin_pct": 0.6422525158845568,
+      "units": 26956,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Northeast",
+        "Midwest"
+      ],
+      "categories": [
+        "Home"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 656555.6499999969,
+      "gross_revenue": 841912.4599999978,
+      "discount_amount": 19242.93000000001,
+      "cogs": 254697.6299999986,
+      "margin": 401858.0199999983,
+      "margin_pct": 0.6120700050330847,
+      "units": 8287,
+      "completed_orders": 16507,
+      "aov": 208.44242684921159
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Midwest",
+        "Southwest"
+      ],
+      "categories": [],
+      "channels": [
+        "in_store",
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 2976379.77999996,
+      "gross_revenue": 3901720.7899999116,
+      "discount_amount": 87566.14999999992,
+      "cogs": 1113790.0600000469,
+      "margin": 1862589.7199999134,
+      "margin_pct": 0.6257903418494324,
+      "units": 36794,
+      "completed_orders": 16086,
+      "aov": 207.36747482282325
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Southwest",
+        "Midwest",
+        "Northeast",
+        "West",
+        "Southeast"
+      ],
+      "categories": [
+        "Apparel",
+        "Home"
+      ],
+      "channels": [
+        "in_store",
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 3821178.5999998003,
+      "gross_revenue": 4968368.729999644,
+      "discount_amount": 113741.90999999967,
+      "cogs": 1453255.280000044,
+      "margin": 2367923.3199997563,
+      "margin_pct": 0.6196840210504372,
+      "units": 46969,
+      "completed_orders": 41100,
+      "aov": 207.8341695863555
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [
+        "Footwear",
+        "Home"
+      ],
+      "channels": [
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 1267457.4800000144,
+      "gross_revenue": 1655200.410000032,
+      "discount_amount": 36537.38000000006,
+      "cogs": 484453.46999999194,
+      "margin": 783004.0100000225,
+      "margin_pct": 0.6177753671073949,
+      "units": 15305,
+      "completed_orders": 15654,
+      "aov": 205.49364699118007
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Southwest",
+        "Northeast"
+      ],
+      "categories": [
+        "Footwear",
+        "Home"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 1301108.3300000129,
+      "gross_revenue": 1684551.840000029,
+      "discount_amount": 40201.29999999998,
+      "cogs": 498249.01999998937,
+      "margin": 802859.3100000236,
+      "margin_pct": 0.6170580046935951,
+      "units": 15530,
+      "completed_orders": 15831,
+      "aov": 206.86196450002652
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Southwest"
+      ],
+      "categories": [
+        "Accessories"
+      ],
+      "channels": [
+        "online",
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 379369.90000000043,
+      "gross_revenue": 498613.0300000007,
+      "discount_amount": 10607.319999999992,
+      "cogs": 135445.7299999979,
+      "margin": 243924.17000000254,
+      "margin_pct": 0.6429718593910647,
+      "units": 4996,
+      "completed_orders": 7705,
+      "aov": 205.69667878001303
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "West",
+        "Midwest"
+      ],
+      "categories": [
+        "Home",
+        "Footwear",
+        "Accessories",
+        "Apparel"
+      ],
+      "channels": [
+        "online",
+        "in_store"
+      ]
+    },
+    "expected": {
+      "net_revenue": 3094298.1799999583,
+      "gross_revenue": 4008492.7999999155,
+      "discount_amount": 91029.79999999987,
+      "cogs": 1158243.470000044,
+      "margin": 1936054.7099999143,
+      "margin_pct": 0.6256845970804082,
+      "units": 37909,
+      "completed_orders": 16535,
+      "aov": 208.35463501662753
+    }
+  },
+  {
+    "filters": {
+      "regions": [],
+      "categories": [],
+      "channels": [
+        "online"
+      ]
+    },
+    "expected": {
+      "net_revenue": 4780959.969999804,
+      "gross_revenue": 6205745.789999575,
+      "discount_amount": 143382.63999999897,
+      "cogs": 1787565.1300000187,
+      "margin": 2993394.8399997856,
+      "margin_pct": 0.6261074886180041,
+      "units": 58373,
+      "completed_orders": 25446,
+      "aov": 209.2740242081155
+    }
+  },
+  {
+    "filters": {
+      "regions": [
+        "Southeast"
+      ],
+      "categories": [
+        "Footwear",
+        "Accessories"
+      ],
+      "channels": []
+    },
+    "expected": {
+      "net_revenue": 822248.0300000069,
+      "gross_revenue": 1081466.8800000132,
+      "discount_amount": 24025.210000000054,
+      "cogs": 301402.89999999735,
+      "margin": 520845.13000000955,
+      "margin_pct": 0.6334404109183517,
+      "units": 10042,
+      "completed_orders": 8734,
+      "aov": 208.61102816578858
+    }
+  }
+]

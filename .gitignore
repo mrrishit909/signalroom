@@ -1,0 +1,14 @@
+venv/
+.user.yml
+.env
+__pycache__/
+*.pyc
+data/raw/
+*.duckdb
+dbt_packages/
+target/
+logs/
+node_modules/
+site/node_modules/
+site/dist/
+.DS_Store
