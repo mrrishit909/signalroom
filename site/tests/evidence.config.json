@@ -1,0 +1,6 @@
+{
+  "_comment": "Filled in once design/approved/scroll-storyboard.md and the frontend build lock down real scene anchors and interaction selectors. Every anchorSelector/trigger here must exist in the built DOM -- this file is updated as part of the QA task, not guessed ahead of the build.",
+  "scenes": [],
+  "interactionStates": [],
+  "heavyInteraction": { "label": "TBD", "trigger": "", "durationMs": 4000 }
+}
