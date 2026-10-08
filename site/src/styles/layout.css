@@ -110,14 +110,22 @@ main {
   .scene-nav-current {
     display: block;
     position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 54px;
+    left: 50%;
+    bottom: 58px;
     z-index: 5;
     margin: 0;
+    transform: translateX(-50%);
     text-align: center;
     font-size: 11px;
-    color: var(--muted);
+    color: var(--cream);
+    /* A fixed-position overlay sits above whatever scene background is
+       currently scrolled under it, including Proof's light cream slip --
+       --muted-on-transparent measured 2.22:1 there. An opaque pill keeps the
+       15.44:1 cream-on-midnight ratio (concept.md palette table) regardless
+       of what's beneath. */
+    background: var(--midnight);
+    padding: 3px 10px;
+    border-radius: 999px;
     pointer-events: none;
   }
   .scene-nav ol {
@@ -144,6 +152,12 @@ main {
   }
   .scene-nav .n {
     margin-right: 0;
+  }
+  /* Filled-copper selected state uses --midnight text, same convention as
+     selected Till Bar chips (motion-spec.md section 4): --muted (the default
+     dot-number color) on --copper is 1.08:1, nowhere near the 4.5:1 floor. */
+  .scene-nav button.active .n {
+    color: var(--midnight);
   }
 }
 
@@ -272,7 +286,10 @@ main {
 }
 .slip-line.total {
   font-weight: 700;
-  color: var(--copper-ink);
+  /* --copper-ink is reserved for large text (concept.md); 13px bold is below
+     the WCAG "large text" threshold (18.66px bold), where it fails AA
+     (4.21:1, needs 4.5:1). --midnight has ample contrast on the cream slip. */
+  color: var(--midnight);
 }
 .slip-footnote {
   font-size: 10px;
@@ -280,11 +297,13 @@ main {
   margin-top: 10px;
 }
 .promo-code {
-  color: var(--copper-ink);
+  color: var(--midnight);
   font-size: 10px;
+  font-weight: 700;
 }
 .partial-tag {
-  color: var(--copper-ink);
+  color: var(--midnight);
+  font-weight: 700;
 }
 
 /* Phone bottom sheet (responsive-spec.md section 1): peek height ~34svh
@@ -317,7 +336,8 @@ main {
 }
 .slip-handle {
   font-size: 11px;
-  color: var(--copper-ink);
+  color: var(--midnight);
+  font-weight: 700;
 }
 
 /* Month axis */
@@ -604,7 +624,11 @@ main {
   justify-content: space-between;
 }
 .proof-links a {
-  color: var(--copper-ink);
+  /* --copper-ink is reserved for large text (concept.md typography table);
+     these are regular 16px links, where it fails WCAG AA (4.21:1, needs 4.5:1).
+     --midnight gives ample contrast on the cream slip. */
+  color: var(--midnight);
+  text-decoration: underline;
 }
 
 /* Opening */

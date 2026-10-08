@@ -2,7 +2,7 @@
 // `min-height: 100svh` section with `data-scene` matching the storyboard's
 // `id` column, for the Scene Nav, the keyboard map, and the evidence harness
 // anchors.
-import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { scroll } from "motion";
 import { useRibbon } from "../lib/RibbonContext";
 import { useLensKeyboard } from "../lib/useLensKeyboard";
@@ -245,20 +245,23 @@ export function SliceScene() {
             const v = dimensionTotals.get(opt);
             const isSelected = activeValues.includes(opt);
             return (
-              <button
-                key={opt}
-                type="button"
-                role="listitem"
-                className={`dimension-bar${isSelected ? " selected" : ""}`}
-                onClick={() => tapBar(opt)}
-                aria-pressed={isSelected}
-              >
-                <span className="bar-label mono">{opt}</span>
-                <span className="bar-track">
-                  <span className="bar-fill" style={{ width: `${((v?.net ?? 0) / maxNet) * 100}%` }} />
-                </span>
-                <span className="bar-value mono">{v ? money(v.net) : "n/a"}</span>
-              </button>
+              // role="listitem" conflicts with aria-pressed (not an allowed
+              // ARIA attribute on listitem) -- the wrapper carries the list
+              // structure, the button keeps its own (implicit) interactive role.
+              <div key={opt} role="listitem">
+                <button
+                  type="button"
+                  className={`dimension-bar${isSelected ? " selected" : ""}`}
+                  onClick={() => tapBar(opt)}
+                  aria-pressed={isSelected}
+                >
+                  <span className="bar-label mono">{opt}</span>
+                  <span className="bar-track">
+                    <span className="bar-fill" style={{ width: `${((v?.net ?? 0) / maxNet) * 100}%` }} />
+                  </span>
+                  <span className="bar-value mono">{v ? money(v.net) : "n/a"}</span>
+                </button>
+              </div>
             );
           })}
         </div>
@@ -283,13 +286,18 @@ export function SliceScene() {
         aria-label={isTablet ? "Category by region, net revenue and margin" : "Region by category, net revenue and margin"}
         style={{ gridTemplateColumns: `120px repeat(${colDim.length}, 1fr)` }}
       >
-        <div className="grid-corner" />
-        {colDim.map((c) => (
-          <div key={c} className="grid-colhead mono">{c}</div>
-        ))}
+        <div role="row" style={{ display: "contents" }}>
+          <div className="grid-corner" role="presentation" />
+          {colDim.map((c) => (
+            <div key={c} className="grid-colhead mono" role="columnheader">{c}</div>
+          ))}
+        </div>
         {rowDim.map((row) => (
-          <Fragment key={row}>
-            <div className="grid-rowhead mono">{row}</div>
+          // role="row" needs to be a real element (not a Fragment) for a valid
+          // grid>row>gridcell hierarchy; display:contents keeps it invisible to
+          // the CSS Grid layout so column positions are unaffected.
+          <div key={row} role="row" style={{ display: "contents" }}>
+            <div className="grid-rowhead mono" role="rowheader">{row}</div>
             {colDim.map((col) => {
               // cellValue is always keyed `${region}|${category}`.
               const key = isTablet ? `${row}|${col}` : `${col}|${row}`;
@@ -311,7 +319,7 @@ export function SliceScene() {
                 </button>
               );
             })}
-          </Fragment>
+          </div>
         ))}
       </div>
     </section>
