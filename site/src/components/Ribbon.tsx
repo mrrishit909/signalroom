@@ -55,8 +55,16 @@ export function Ribbon() {
   const lensSample = Math.round((lensIndex / Math.max(1, months.length - 1)) * (frame.centerline.length - 1));
   const lensPoint = frame.centerline[lensSample] ?? frame.centerline[0];
 
+  // Scenes 4-6 (Slice, Shelf, Return) still show the ribbon per the
+  // Continuity rule, but recede it so their own content reads cleanly; the
+  // full "context strip" / "strands" / "calendar axis" ribbon forms the
+  // storyboard describes for those scenes are not implemented (see final
+  // report) -- this opacity step is the deliberate stand-in. Proof (07) has
+  // a light cream ground, so the ribbon is hidden there entirely.
+  const recededOpacity = activeScene === "proof" ? 0 : ["slice", "shelf", "return"].includes(activeScene) ? 0.28 : 1;
+
   return (
-    <div className="ribbon-stage" aria-hidden="true">
+    <div className="ribbon-stage" aria-hidden="true" style={{ opacity: recededOpacity, transition: "opacity 280ms linear" }}>
       <svg
         viewBox={cameraBox}
         width="100%"
