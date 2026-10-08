@@ -1,6 +1,31 @@
 {
-  "_comment": "Filled in once design/approved/scroll-storyboard.md and the frontend build lock down real scene anchors and interaction selectors. Every anchorSelector/trigger here must exist in the built DOM -- this file is updated as part of the QA task, not guessed ahead of the build.",
-  "scenes": [],
-  "interactionStates": [],
-  "heavyInteraction": { "label": "TBD", "trigger": "", "durationMs": 4000 }
+  "_comment": "Filled in by the frontend build once real scene anchors and interaction selectors existed in the DOM (site/src/components/Scenes.tsx, TillBar.tsx, SceneNav.tsx, Scenes.tsx's ShelfScene). Every anchorSelector/trigger below was verified against the built site/dist bundle.",
+  "scenes": [
+    { "id": "year", "anchorSelector": "[data-scene=\"year\"]" },
+    { "id": "season", "anchorSelector": "[data-scene=\"season\"]" },
+    { "id": "promo", "anchorSelector": "[data-scene=\"promo\"]" },
+    { "id": "slice", "anchorSelector": "[data-scene=\"slice\"]" },
+    { "id": "shelf", "anchorSelector": "[data-scene=\"shelf\"]" },
+    { "id": "return", "anchorSelector": "[data-scene=\"return\"]" },
+    { "id": "proof", "anchorSelector": "[data-scene=\"proof\"]" }
+  ],
+  "interactionStates": [
+    {
+      "id": "lens-jump-jul-2025",
+      "setup": "document.querySelectorAll('.axis-tick')[8]?.click();"
+    },
+    {
+      "id": "filter-apparel-selected",
+      "setup": "Array.from(document.querySelectorAll('.chip')).find((el) => el.textContent.trim() === 'Apparel')?.click();"
+    },
+    {
+      "id": "nav-jump-promo",
+      "setup": "Array.from(document.querySelectorAll('.scene-nav button')).find((b) => b.textContent.includes('Promo'))?.click();"
+    }
+  ],
+  "heavyInteraction": {
+    "label": "Season scroll-scrub (rapid, repeated)",
+    "trigger": "const wrap = document.querySelector('.scene-pin-wrapper'); if (wrap) { let dir = 1; const start = window.scrollY + wrap.getBoundingClientRect().top; const id = setInterval(() => { window.scrollBy(0, dir * 40); const y = window.scrollY; if (y <= start) dir = 1; if (y >= start + wrap.offsetHeight - window.innerHeight) dir = -1; }, 16); window.__heavyIntervalId = id; }",
+    "durationMs": 4000
+  }
 }

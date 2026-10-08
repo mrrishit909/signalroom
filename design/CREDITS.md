@@ -1,4 +1,12 @@
-# CREDITS (stub, finalized by the build engineer)
+# CREDITS (finalized -- see /CREDITS.md at the repo root)
+
+The build engineer finalized this at the repo root (`~/signalroom/CREDITS.md`),
+not here: the top-level location is what GitHub renders on the repo's main
+page and what a cloned checkout expects, and it is also what `site/dist`'s
+Proof scene links to. This file is kept as the original design stub for
+history; do not edit it further.
+
+---
 
 Every third-party asset that ships in `site/dist`. All are self-hosted via npm; there are no CDN links. Versions were checked with `npm view` on 2026-10-08. Re-check against the lockfile at build time and copy each package's LICENSE text into the final file.
 
