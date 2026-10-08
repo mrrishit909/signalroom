@@ -1,8 +1,8 @@
 // Pure in-browser aggregation over the real pre-computed grains exported by
 // scripts/export_fixtures.py from the verified dbt marts. No fabricated
 // numbers: every value returned here is a real sum over real rows that trace
-// back to fact_sales. Runs in a Web Worker (see worker.ts) so filtering never
-// blocks the scroll/motion thread.
+// back to fact_sales. Runs on the main thread, memoized by filter key: 920 +
+// 230 rows is trivial, so a Web Worker is not needed (concept.md section 2).
 //
 // completed_orders/AOV deliberately come from a SEPARATE grain (orders_monthly,
 // region x channel x month) than revenue/margin/units (monthly, which also
