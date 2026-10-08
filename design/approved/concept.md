@@ -71,7 +71,12 @@ The category hues only appear when the ribbon is split by category (Scenes 4 and
    - Particles and counters use **units** or **dollars**, never orders.
    - *To add AOV later:* export a grain of month × region × channel with completed-only net_revenue and `count(distinct order_id)`. Orders are additive across region and channel because each order has one customer and one channel. Show AOV only when the category chip set is "All".
 3. **Margin %** = margin / net_revenue. If net_revenue is 0, show "n/a", never 0%.
-4. **Bridge residual** = gross − discount − net, labelled **"Returns & cancellations (derived)"** with the formula printed in the slip footnote. It is never split into two bars, because the fixtures cannot separate the two. All-data value: $2,092,055 (21.5% of gross − discount).
+4. **Bridge residual** = gross − discount − net, labelled **"Returns & cancels effect (derived)"**. It is never split into two bars, because the fixtures cannot separate the two.
+   - All-data value: $2,092,055 (21.5% of gross − discount).
+   - **It is not "the value of returns plus cancellations."** In `fact_sales` a returned item is one *negative* posting with no matching positive sale, so each return counts twice in this residual: once as gross that never became revenue, and once as its negative posting. Cancels count once.
+   - DB check: returned net = −$891,556; cancelled gross = $316,213.
+   - The slip and Proof footnote must say this in one line: "Returned items count twice here: unrealized gross plus their negative posting."
+   - `docs/metrics.md` says a fully-returned order "nets to exactly zero", which contradicts `models/marts/fact_sales.sql`. Proof must **not** reprint that sentence. The orchestrator has been flagged.
 5. **Partial month.** 2026-09 covers Sep 1–3 only.
    - Draw it with the hatched, frayed ribbon end, labelled "Sep 1–3 · partial".
    - Exclude it from comps, coil spoke scaling, Y-axis domain and cohort colour scales.

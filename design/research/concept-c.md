@@ -30,7 +30,7 @@ Retail runs on the calendar. The real variance in this dataset is calendar-shape
 - **Seasonality:** December 2024 is 3.1× February 2025, and Nov–Dec hold 28.4% of Year-1 net.
 - **Promo windows:** margin is 61.1% in promo months vs 63.5% in non-promo months.
 - **Comps:** July 2026 comps at **−13.2%** because SUMMER25 ran in July 2025 and no promo ran in July 2026.
-- **Holiday echo in retention:** 70–87% of each cohort returns at the following Nov/Dec.
+- **Holiday echo in retention:** 72–80% of the two large cohorts (93% of customers) return the following Nov/Dec.
 
 The comp coil is the CFO's year-over-year flash report made physical. It is not generic: a "data dashboard" has no reason to coil on a 12-month period, while retail does.
 

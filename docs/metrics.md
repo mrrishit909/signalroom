@@ -9,8 +9,20 @@ retailer, real transactions, or real customers.
 Every order has exactly one status: `completed`, `returned`, or `cancelled`.
 A `cancelled` order's items contribute **zero** revenue, COGS, discount, or margin
 anywhere. A `returned` order's items contribute the **negative** of what a
-`completed` order with identical items would have contributed, so a fully-returned
-order always nets to exactly zero in every metric below.
+`completed` order with identical items would have contributed.
+
+**This does NOT net to zero.** Each order in this dataset has exactly one status
+and appears exactly once in `fact_sales` -- there is no paired prior "completed"
+row for a `returned` order to cancel out against. A returned order therefore
+posts a real negative net_revenue and negative COGS with no offsetting positive
+entry anywhere in the data. Practically, this means the gross-to-net gap (gross
+minus discount minus net) is NOT simply "the value of returns plus cancellations":
+a return counts twice in that gap (once as gross revenue that was never
+converted to net, and once again as its own negative posting), while a
+cancellation counts only once (as unconverted gross). The site labels this
+combined gap "returns & cancels effect (derived)" rather than implying it is
+separable into the two causes, and never reprints this paragraph's earlier,
+incorrect claim that a return nets to zero.
 
 ## Revenue
 
