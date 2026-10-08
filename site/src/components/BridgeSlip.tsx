@@ -2,9 +2,10 @@
 // the slip" -- the acceptance check is in oracle.test.ts; this component
 // only ever prints `oracle.ts` output, never a tweened number (motion-spec
 // section 5.1: "numbers in text never tween").
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRibbon } from "../lib/RibbonContext";
 import { bridgeResidual, marginPct } from "../lib/oracle";
+import { usePhone } from "../lib/useMediaQuery";
 
 const PROMO_WINDOWS: Record<string, string[]> = {
   "2024-11": ["BLACKFRI24"],
@@ -20,10 +21,12 @@ function money(n: number): string {
 }
 
 export function BridgeSlip() {
-  const { series, months, lensIndex, partial, setReadout } = useRibbon();
+  const { series, months, lensIndex, partial, setReadout, activeScene } = useRibbon();
   const point = series[lensIndex];
   const monthLabel = months[lensIndex];
   const isPartial = monthLabel === partial;
+  const isPhone = usePhone();
+  const [expanded, setExpanded] = useState(false);
 
   const residual = useMemo(() => (point ? bridgeResidual(point) : 0), [point]);
   const pct = useMemo(() => (point ? marginPct(point) : null), [point]);
@@ -37,11 +40,43 @@ export function BridgeSlip() {
     setReadout(text);
   }, [monthLabel, point, pct, isPartial, setReadout]);
 
+  useEffect(() => {
+    if (!expanded) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setExpanded(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [expanded]);
+
   if (!point) return null;
+  // Phone (responsive-spec.md section 1): the slip is a bottom sheet that
+  // belongs to the Year scene's dial, not a fixed overlay sitting on top of
+  // every later scene -- it only renders there once off Year.
+  if (isPhone && activeScene !== "year") return null;
 
   return (
-    <aside className="bridge-slip mono" aria-label="Bridge slip">
-      <div className="slip-month">{monthLabel}{isPartial && <span className="partial-tag"> · partial</span>}</div>
+    <aside className={`bridge-slip mono${isPhone ? " sheet" : ""}${expanded ? " expanded" : ""}`} aria-label="Bridge slip">
+      <div
+        className="slip-month"
+        role={isPhone ? "button" : undefined}
+        tabIndex={isPhone ? 0 : undefined}
+        aria-expanded={isPhone ? expanded : undefined}
+        onClick={isPhone ? () => setExpanded((v) => !v) : undefined}
+        onKeyDown={
+          isPhone
+            ? (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setExpanded((v) => !v);
+                }
+              }
+            : undefined
+        }
+      >
+        {monthLabel}{isPartial && <span className="partial-tag"> · partial</span>}
+        {isPhone && <span className="slip-handle" aria-hidden="true">{expanded ? "▾ collapse" : "▴ all 7 lines"}</span>}
+      </div>
       <dl>
         <div className="slip-line">
           <dt>GROSS</dt>

@@ -22,24 +22,31 @@ export function SceneNav() {
     }
   }
 
+  const activeLabel = SCENES.find((s) => s.id === activeScene)?.label ?? "";
+
   return (
-    <nav className="scene-nav" aria-label="Scene navigation" ref={navRef} onKeyDown={onKeyDown}>
-      <ol>
-        {SCENES.map((s) => (
-          <li key={s.id}>
-            <button
-              type="button"
-              className={s.id === activeScene ? "active" : ""}
-              aria-current={s.id === activeScene ? "true" : undefined}
-              aria-label={s.aria}
-              onClick={() => jumpTo(s.id)}
-            >
-              <span className="n">{s.n}</span>
-              <span className="label">{s.label}</span>
-            </button>
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <>
+      {/* Phone (responsive-spec.md section 1): the dock below becomes plain
+          numbered dots, so the active scene's name is surfaced here instead. */}
+      <p className="scene-nav-current mono" aria-hidden="true">{activeLabel}</p>
+      <nav className="scene-nav" aria-label="Scene navigation" ref={navRef} onKeyDown={onKeyDown}>
+        <ol>
+          {SCENES.map((s) => (
+            <li key={s.id}>
+              <button
+                type="button"
+                className={s.id === activeScene ? "active" : ""}
+                aria-current={s.id === activeScene ? "true" : undefined}
+                aria-label={s.aria}
+                onClick={() => jumpTo(s.id)}
+              >
+                <span className="n">{s.n}</span>
+                <span className="label">{s.label}</span>
+              </button>
+            </li>
+          ))}
+        </ol>
+      </nav>
+    </>
   );
 }

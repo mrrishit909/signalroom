@@ -18,6 +18,7 @@ import {
 import type { CohortData } from "../lib/useFixtures";
 import { BridgeSlip } from "./BridgeSlip";
 import { CompReadout } from "./CompReadout";
+import { usePhone, useTablet } from "../lib/useMediaQuery";
 
 function money(n: number): string {
   return `$${Math.round(n).toLocaleString("en-US")}`;
@@ -145,10 +146,14 @@ export function PromoScene() {
 
 const REGIONS = ["Northeast", "Southeast", "Midwest", "Southwest", "West"];
 const CATEGORIES = ["Apparel", "Footwear", "Accessories", "Home"];
+const CHANNELS = ["online", "in-store"];
 
 export function SliceScene() {
-  const { monthly } = useRibbon();
+  const { monthly, filters, setFilters } = useRibbon();
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const isPhone = usePhone();
+  const isTablet = useTablet();
+  const [dimension, setDimension] = useState<"region" | "category" | "channel">("region");
 
   const cellValue = useMemo(() => {
     const map = new Map<string, { online: number; inStore: number; margin: number; net: number }>();
@@ -165,6 +170,23 @@ export function SliceScene() {
     return map;
   }, [monthly]);
 
+  // Phone-only: one dimension's totals, for the segmented-control + bar list
+  // that replaces the grid (responsive-spec.md section 2, Slice: a 390px
+  // grid cell labelled at 70px wide is below the 44px touch target).
+  const dimensionTotals = useMemo(() => {
+    const map = new Map<string, { net: number; margin: number }>();
+    for (const row of monthly) {
+      const key =
+        dimension === "region" ? row.region_name : dimension === "category" ? row.category : row.channel === "online" ? "online" : "in-store";
+      if (!key) continue;
+      const cur = map.get(key) ?? { net: 0, margin: 0 };
+      cur.net += row.net_revenue;
+      cur.margin += row.margin;
+      map.set(key, cur);
+    }
+    return map;
+  }, [monthly, dimension]);
+
   const spread = useMemo(() => regionSpread(monthly), [monthly]);
   const swing = useMemo(() => channelSwing(monthly), [monthly]);
 
@@ -177,26 +199,104 @@ export function SliceScene() {
     });
   }
 
+  function filterKeyFor(dim: "region" | "category" | "channel"): "regions" | "categories" | "channels" {
+    return dim === "region" ? "regions" : dim === "category" ? "categories" : "channels";
+  }
+
+  function tapBar(value: string) {
+    const key = filterKeyFor(dimension);
+    const current = (filters as Record<string, string[] | undefined>)[key] ?? [];
+    const next = current.includes(value) ? current.filter((v) => v !== value) : [...current, value];
+    setFilters({ ...filters, [key]: next.length ? next : undefined });
+  }
+
+  const contextCopy = (
+    <p className="scene-copy">
+      Customer regions differ by {spread.spreadPct.toFixed(1)}% ({spread.minRegion} to {spread.maxRegion}). Online
+      share swings {swing.minPct.toFixed(1)}% to {swing.maxPct.toFixed(1)}% month to month. A flat result is a
+      finding.
+    </p>
+  );
+
+  if (isPhone) {
+    const options = dimension === "region" ? REGIONS : dimension === "category" ? CATEGORIES : CHANNELS;
+    const maxNet = Math.max(...options.map((o) => dimensionTotals.get(o)?.net ?? 0), 1);
+    const activeKey = filterKeyFor(dimension);
+    const activeValues = (filters as Record<string, string[] | undefined>)[activeKey] ?? [];
+    return (
+      <section id="scene-slice" data-scene="slice" className="scene scene-slice">
+        <h2 className="eyebrow">Slice</h2>
+        {contextCopy}
+        <div className="dimension-control" role="group" aria-label="Compare by">
+          {(["region", "category", "channel"] as const).map((dim) => (
+            <button
+              key={dim}
+              type="button"
+              className={`segment${dimension === dim ? " active" : ""}`}
+              aria-pressed={dimension === dim}
+              onClick={() => setDimension(dim)}
+            >
+              {dim === "region" ? "Region" : dim === "category" ? "Category" : "Channel"}
+            </button>
+          ))}
+        </div>
+        <div className="dimension-bars" role="list" aria-label={`Net revenue by ${dimension}`}>
+          {options.map((opt) => {
+            const v = dimensionTotals.get(opt);
+            const isSelected = activeValues.includes(opt);
+            return (
+              <button
+                key={opt}
+                type="button"
+                role="listitem"
+                className={`dimension-bar${isSelected ? " selected" : ""}`}
+                onClick={() => tapBar(opt)}
+                aria-pressed={isSelected}
+              >
+                <span className="bar-label mono">{opt}</span>
+                <span className="bar-track">
+                  <span className="bar-fill" style={{ width: `${((v?.net ?? 0) / maxNet) * 100}%` }} />
+                </span>
+                <span className="bar-value mono">{v ? money(v.net) : "n/a"}</span>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+    );
+  }
+
+  // Tablet (responsive-spec.md section 2): the grid transposes to 4 columns
+  // (Category) x 5 rows (Region) instead of desktop's 5 x 4, which is why
+  // this is swapped in JSX rather than left to a CSS column-count change
+  // (the old CSS-only attempt kept 5 region column headers over 4 columns).
+  const colDim = isTablet ? CATEGORIES : REGIONS;
+  const rowDim = isTablet ? REGIONS : CATEGORIES;
+
   return (
     <section id="scene-slice" data-scene="slice" className="scene scene-slice">
       <h2 className="eyebrow">Slice</h2>
-      <p className="scene-copy">
-        Customer regions differ by {spread.spreadPct.toFixed(1)}% ({spread.minRegion} to {spread.maxRegion}). Online
-        share swings {swing.minPct.toFixed(1)}% to {swing.maxPct.toFixed(1)}% month to month. A flat result is a
-        finding.
-      </p>
-      <div className="slice-grid" role="grid" aria-label="Region by category, net revenue and margin">
+      {contextCopy}
+      <div
+        className="slice-grid"
+        role="grid"
+        aria-label={isTablet ? "Category by region, net revenue and margin" : "Region by category, net revenue and margin"}
+        style={{ gridTemplateColumns: `120px repeat(${colDim.length}, 1fr)` }}
+      >
         <div className="grid-corner" />
-        {REGIONS.map((r) => (
-          <div key={r} className="grid-colhead mono">{r}</div>
+        {colDim.map((c) => (
+          <div key={c} className="grid-colhead mono">{c}</div>
         ))}
-        {CATEGORIES.map((cat) => (
-          <Fragment key={cat}>
-            <div className="grid-rowhead mono">{cat}</div>
-            {REGIONS.map((reg) => {
-              const key = `${reg}|${cat}`;
+        {rowDim.map((row) => (
+          <Fragment key={row}>
+            <div className="grid-rowhead mono">{row}</div>
+            {colDim.map((col) => {
+              // cellValue is always keyed `${region}|${category}`.
+              const key = isTablet ? `${row}|${col}` : `${col}|${row}`;
               const v = cellValue.get(key);
               const isSelected = selected.has(key);
+              const reg = isTablet ? row : col;
+              const cat = isTablet ? col : row;
               return (
                 <button
                   key={key}
@@ -275,6 +375,20 @@ export function ShelfScene({ skuMonthly }: { skuMonthly: SkuMonthlyRow[] | null 
           value={guess}
           onChange={(e) => setGuess(Number(e.target.value))}
         />
+        {/* A tap-sized alternative to dragging the handle (responsive-spec.md
+            section 1, "cheap extra": a stepper beside the drag). */}
+        <span className="guess-stepper">
+          <button type="button" aria-label="Decrease guess by 1" onClick={() => setGuess((g) => Math.max(1, g - 1))}>
+            -
+          </button>
+          <button
+            type="button"
+            aria-label="Increase guess by 1"
+            onClick={() => setGuess((g) => Math.min(result.n, g + 1))}
+          >
+            +
+          </button>
+        </span>
         <button type="button" onClick={() => setCommitted(true)} data-testid="lock-guess">
           Lock guess
         </button>

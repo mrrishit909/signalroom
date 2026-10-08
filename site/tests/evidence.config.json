@@ -21,6 +21,16 @@
     {
       "id": "nav-jump-promo",
       "setup": "Array.from(document.querySelectorAll('.scene-nav button')).find((b) => b.textContent.includes('Promo'))?.click();"
+    },
+    {
+      "id": "slip-expanded",
+      "_comment": "Phone-only: the Bridge Slip bottom sheet, tapped open to show all 7 lines. Scrolls to Year instantly (not via the nav's smooth scroll, which races the scroll-position IntersectionObserver on a long page) before clicking; .slip-month only renders under 768px, so this is a no-op at tablet/desktop.",
+      "setup": "document.querySelector('[data-scene=\"year\"]')?.scrollIntoView({ behavior: 'instant' }); setTimeout(() => document.querySelector('.slip-month')?.click(), 80);"
+    },
+    {
+      "id": "filters-sheet-open",
+      "_comment": "Phone-only: the collapsed Till Bar's \"Filters (n)\" button opening the full-height sheet. .filters-button is display:none above 767px, so this is a no-op at tablet/desktop.",
+      "setup": "document.querySelector('.filters-button')?.click();"
     }
   ],
   "heavyInteraction": {

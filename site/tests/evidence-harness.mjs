@@ -54,6 +54,8 @@ async function captureScreenshotsAndRecording(browser, width) {
   });
   const page = await context.newPage();
   await page.goto(baseUrl, { waitUntil: "networkidle" });
+  await page.keyboard.press("Escape"); // skip the Opening overlay, same as the Playwright specs do
+  await page.waitForTimeout(250);
 
   for (const scene of config.scenes) {
     await page.locator(scene.anchorSelector).scrollIntoViewIfNeeded();

@@ -39,7 +39,7 @@ export interface RibbonFrame {
   margin: LayerFrame;
 }
 
-export type RibbonForm = "unrolled" | "coil";
+export type RibbonForm = "unrolled" | "coil" | "contextStrip" | "axis";
 
 export interface Viewport {
   width: number;
@@ -150,8 +150,58 @@ export function coilFrame(series: MonthPoint[], viewport: Viewport, scale: Thick
   );
 }
 
+/**
+ * Context strip (Slice, Scene 4): the ribbon unwound back out of the coil
+ * into a horizontal band pinned to the top of the stage, still layered and
+ * value-encoded like Year's unrolled form, just compressed -- it reads as
+ * "the same ribbon, now a context header" above the Slice grid rather than
+ * a second full-size unroll. Defining property, tested in geometry.test.ts:
+ * every centerline point sits in the top 20% of the viewport, and x is
+ * still strictly increasing left-to-right (unlike the coil).
+ */
+export function contextStripFrame(series: MonthPoint[], viewport: Viewport, scale: ThicknessScale): RibbonFrame {
+  const margin = viewport.width * 0.08;
+  const usable = viewport.width - margin * 2;
+  const centerY = viewport.height * 0.12;
+  return buildFrame(
+    (t) => ({ x: margin + (t / (series.length - 1)) * usable, y: centerY }),
+    () => ({ x: 0, y: 1 }),
+    series,
+    (v) => scale(v) * 0.35
+  );
+}
+
+/**
+ * Calendar axis (Return, Scene 6): the ribbon laid flat as a 23-tick
+ * horizontal rule above the Cohort Grid -- a position axis, not a
+ * value-encoded ribbon, so thickness is constant rather than following
+ * revenue. Defining property, tested in geometry.test.ts: thickness
+ * (outer-inner distance) is the same constant at every sample, which is
+ * what makes it read as "calendar axis" rather than a second context strip.
+ */
+export function axisFrame(series: MonthPoint[], viewport: Viewport, _scale: ThicknessScale): RibbonFrame {
+  const margin = viewport.width * 0.08;
+  const usable = viewport.width - margin * 2;
+  const centerY = viewport.height * 0.14;
+  return buildFrame(
+    (t) => ({ x: margin + (t / (series.length - 1)) * usable, y: centerY }),
+    () => ({ x: 0, y: 1 }),
+    series,
+    () => 3
+  );
+}
+
 export function frameForForm(form: RibbonForm, series: MonthPoint[], viewport: Viewport, scale: ThicknessScale): RibbonFrame {
-  return form === "coil" ? coilFrame(series, viewport, scale) : unrolledFrame(series, viewport, scale);
+  switch (form) {
+    case "coil":
+      return coilFrame(series, viewport, scale);
+    case "contextStrip":
+      return contextStripFrame(series, viewport, scale);
+    case "axis":
+      return axisFrame(series, viewport, scale);
+    default:
+      return unrolledFrame(series, viewport, scale);
+  }
 }
 
 function lerpPoints(a: Point[], b: Point[], p: number): Point[] {

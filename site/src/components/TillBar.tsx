@@ -6,8 +6,10 @@
 // once the bar is hidden there -- resolved in favour of "hidden in 6 and 7",
 // the more specific of the two rules, and the one scroll-storyboard.md's own
 // Scene 6 section states under "Data").
+import { useState } from "react";
 import { useRibbon } from "../lib/RibbonContext";
 import type { Filters } from "../lib/useFixtures";
+import { usePhone } from "../lib/useMediaQuery";
 
 type Dim = "regions" | "categories" | "channels";
 
@@ -20,9 +22,15 @@ const NA_REASONS: Partial<Record<string, Partial<Record<Dim, string>>>> = {
 
 export function TillBar({ filterOptions }: { filterOptions: Filters }) {
   const { filters, setFilters, activeScene } = useRibbon();
+  const isPhone = usePhone();
+  const [sheetOpen, setSheetOpen] = useState(false);
   if (activeScene === "return" || activeScene === "proof") return null;
 
   const naFor = NA_REASONS[activeScene] ?? {};
+  const activeCount = (["regions", "categories", "channels"] as Dim[]).reduce(
+    (n, dim) => n + ((filters as Record<Dim, string[] | undefined>)[dim]?.length ?? 0),
+    0
+  );
 
   function toggle(dim: Dim, value: string) {
     const current = (filters as Record<Dim, string[] | undefined>)[dim] ?? [];
@@ -54,6 +62,35 @@ export function TillBar({ filterOptions }: { filterOptions: Filters }) {
           );
         })}
       </div>
+    );
+  }
+
+  if (isPhone) {
+    // Phone (responsive-spec.md section 1): the Till Bar collapses into one
+    // button that opens a full-height sheet of the same grouped chips.
+    return (
+      <>
+        <button
+          type="button"
+          className="filters-button"
+          aria-expanded={sheetOpen}
+          onClick={() => setSheetOpen((v) => !v)}
+        >
+          Filters {activeCount > 0 ? `(${activeCount})` : ""}
+        </button>
+        {sheetOpen && (
+          <div className="filters-sheet" role="dialog" aria-label="Filters">
+            <button type="button" className="filters-sheet-close" onClick={() => setSheetOpen(false)}>
+              Close
+            </button>
+            <div className="till-bar" role="toolbar" aria-label="Filters">
+              {renderGroup("regions", filterOptions.regions, "Customer region")}
+              {renderGroup("categories", filterOptions.categories, "Category")}
+              {renderGroup("channels", filterOptions.channels, "Channel")}
+            </div>
+          </div>
+        )}
+      </>
     );
   }
 
